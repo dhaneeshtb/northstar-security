@@ -5,8 +5,6 @@ package org.northstar.security;
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
