@@ -14,8 +14,6 @@ import java.security.NoSuchAlgorithmException;
 public class AESUtils {
     private static final String ENCRYPT_ALGO = "AES/GCM/NoPadding";
 
-    private static final Charset UTF_8 = StandardCharsets.UTF_8;
-
     public static final String OUTPUT_FORMAT = "%-30s:%s";
 
 
