@@ -5,6 +5,19 @@ Introducing our cutting-edge content encryption library, seamlessly integrating 
 - **Easy to use**
 - **End 2 end content security**
 
+## Installation
+
+To use NorthStar security in your Java project, you can include it as a dependency using Maven or Gradle.
+
+**Maven:**
+```xml
+<dependency>
+    <groupId>io.github.dhaneeshtb</groupId>
+    <artifactId>northstar-security</artifactId>
+    <version>1.0.0</version>
+</dependency>
+
+```
 
 ## Usage Examples
 
