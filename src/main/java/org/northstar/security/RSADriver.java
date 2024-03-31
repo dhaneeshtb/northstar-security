@@ -1,9 +1,6 @@
 package org.northstar.security;
 
 import org.northstar.security.exception.SecurityException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -16,8 +13,6 @@ import java.security.Security;
 import java.util.Base64;
 
 public class RSADriver {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RSADriver.class);
-
     static {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
     }
@@ -83,6 +78,13 @@ public class RSADriver {
         }
     }
 
+    /***
+     *
+     * @param blockToEncrypt byte array block to encrypt
+     * @return Base64 encoded string of encrypted content
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
     public String encryptAndEncodeAsString(byte[] blockToEncrypt) throws IllegalBlockSizeException, BadPaddingException {
         byte[] bytes = encryptCipher.doFinal(blockToEncrypt);
         return new String(Base64.getEncoder().encode(bytes));
@@ -111,6 +113,13 @@ public class RSADriver {
     }
 
 
+    /***
+     *
+     * @param encryptedText base64 encoded string of encrypted content
+     * @return Decrypted string content
+     * @throws IllegalBlockSizeException
+     * @throws BadPaddingException
+     */
     public String decryptDecodeAsString(String encryptedText) throws IllegalBlockSizeException, BadPaddingException {
         return new String(decrypt(Base64.getDecoder().decode(encryptedText)), StandardCharsets.UTF_8);
     }
