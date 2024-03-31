@@ -35,7 +35,7 @@ public class ContentEncryptionTest {
         String randomPassword = CryptoUtils.getRandomPassword(10);
         String clientRawKey = CryptoUtils.getRandomPassword(10);
         RSADriver driverClient = new RSADriver();
-        String clientEncryptedKey = driverClient.encrypt(clientRawKey.getBytes(StandardCharsets.UTF_8),serverKeyPair.getDecodedPair().getPublicKey());
+        String clientEncryptedKey = driverClient.encryptAndEncodeAsString(clientRawKey.getBytes(StandardCharsets.UTF_8),serverKeyPair.getDecodedPair().getPublicKey());
         ContentEncryption ce=new ContentEncryption.ContentEncryptionBuilder(serverKeyPair,serverKeyPair.getDecodedPair())
                 .withPassword(randomPassword)
                 .withClientKey(clientEncryptedKey)
@@ -64,7 +64,7 @@ public class ContentEncryptionTest {
         String randomPassword = CryptoUtils.getRandomPassword(10);
         String clientRawKey = CryptoUtils.getRandomPassword(10);
         RSADriver driverClient = new RSADriver();
-        String clientEncryptedKey = driverClient.encrypt(clientRawKey.getBytes(StandardCharsets.UTF_8),serverKeyPair.getDecodedPair().getPublicKey());
+        String clientEncryptedKey = driverClient.encryptAndEncodeAsString(clientRawKey.getBytes(StandardCharsets.UTF_8),serverKeyPair.getDecodedPair().getPublicKey());
 
 
         ContentEncryption ce=new ContentEncryption.ContentEncryptionBuilder(serverKeyPair,serverKeyPair.getDecodedPair())

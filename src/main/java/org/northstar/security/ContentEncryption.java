@@ -15,7 +15,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
 
 public class ContentEncryption {
 
@@ -122,9 +121,9 @@ public class ContentEncryption {
             String encryptedText;
             byte[] toEncrypt=node.toString().getBytes(StandardCharsets.UTF_8);
             if(clientCert!=null){
-                encryptedText =  new RSADriver().encrypt(toEncrypt,GenerateKeyPair.readX509PublicKey(clientCert));
+                encryptedText =  new RSADriver().encryptAndEncodeAsString(toEncrypt,GenerateKeyPair.readX509PublicKey(clientCert));
             }else{
-                encryptedText = rsaDriver.encrypt(toEncrypt);
+                encryptedText = rsaDriver.encryptAndEncodeAsString(toEncrypt);
             }
             byte[] content = AESUtils.encrypt(contentString.getBytes(StandardCharsets.UTF_8), keySpec);
             return createEncryptedBuffer(content, encryptedText.getBytes());
@@ -176,9 +175,9 @@ public class ContentEncryption {
         SecretKeySpec keySpecLocal;
         RSADriver decryptDriver = clientCert!=null?new RSADriver():rsaDriver;
         if(clientCert!=null){
-            keySpecLocal = SecretKeySpec.toSpec(decryptDriver.decrypt(new String(keySpecText, StandardCharsets.UTF_8),GenerateKeyPair.readPKCS8PrivateKey(clientCert)), clientKey);
+            keySpecLocal = SecretKeySpec.toSpec(decryptDriver.decryptDecodeAsString(new String(keySpecText, StandardCharsets.UTF_8),GenerateKeyPair.readPKCS8PrivateKey(clientCert)), clientKey);
         }else {
-            keySpecLocal = SecretKeySpec.toSpec(decryptDriver.decrypt(new String(keySpecText, StandardCharsets.UTF_8)), clientKey);
+            keySpecLocal = SecretKeySpec.toSpec(decryptDriver.decryptDecodeAsString(new String(keySpecText, StandardCharsets.UTF_8)), clientKey);
         }
         return AESUtils.decrypt(content, keySpecLocal);
     }
@@ -234,7 +233,7 @@ public class ContentEncryption {
                 ce.clientCert = clientCert;
             }
             if (includeClientKey) {
-                ce.clientKey= clientKey.length()<30?clientKey: ce.rsaDriverStraight.decrypt(clientKey);
+                ce.clientKey= clientKey.length()<30?clientKey: ce.rsaDriverStraight.decryptDecodeAsString(clientKey);
                 ce.password = CryptoUtils.getRandomPassword(10);
                 ce.keySpec = new SecretKeySpec((ce.clientKey + ce.password).toCharArray());
             }else{
